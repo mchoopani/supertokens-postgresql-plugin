@@ -28,6 +28,7 @@ import io.supertokens.pluginInterface.ConfigFieldInfo;
 import io.supertokens.pluginInterface.exceptions.InvalidConfigException;
 import io.supertokens.storage.postgresql.Start;
 import io.supertokens.storage.postgresql.annotations.*;
+import io.supertokens.storage.postgresql.utils.Utils;
 
 import java.lang.reflect.Field;
 import java.net.URI;
@@ -784,11 +785,8 @@ public class PostgreSQLConfig {
                     if (fieldValue == null) {
                         continue;
                     }
-                    // To ensure a unique connectionPoolId we include the database password and use the "|db_pass|"
-                    // identifier.
-                    // This facilitates easy removal of the password from logs when necessary.
                     if (fieldName.equals("postgresql_password")) {
-                        connectionPoolId.append("|db_pass|" + fieldValue + "|db_pass");
+                        connectionPoolId.append("|db_pass|" + Utils.hashString(fieldValue) + "|db_pass");
                     } else {
                         connectionPoolId.append("|" + fieldValue);
                     }
@@ -799,4 +797,5 @@ public class PostgreSQLConfig {
         }
         return connectionPoolId.toString();
     }
+
 }
