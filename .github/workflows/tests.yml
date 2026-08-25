@@ -32,6 +32,7 @@ jobs:
       TEST_PG_PORT: "5432"
       TEST_PG_USER: root
       TEST_PG_PASSWORD: root
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 
     # Service containers to run with `test_job`
     services:
